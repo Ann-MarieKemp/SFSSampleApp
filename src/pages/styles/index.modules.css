@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+th {
+  border: 1px solid black;
+  padding: 3px;
+}
+td {
+  border: 1px solid black;
+  padding: 3px;
+  margin-right: 10px;
+}
+td input {
+  background-color: pink;
+}
+.button-box {
+  display: flex;
+  justify-content: space-between;
+  width: 10em;
+}
+button {
+  background-color: lightskyblue;
+  border-radius: 3px;
+  padding: 3px;
+  margin-top: 3px;
+}
