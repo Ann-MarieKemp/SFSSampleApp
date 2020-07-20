@@ -6,5 +6,21 @@
 
 module.exports = {
   /* Your site config here */
-  plugins: [],
+  plugins: [
+    {
+      resolve: "gatsby-source-custom-api",
+      options: {
+        url:
+          "https://raw.githubusercontent.com/StrategicFS/Recruitment/master/data.json",
+        schemas: {
+          debts: `id: String
+          creditorName: String
+          firstName: String
+          lastName: String
+          minPaymentPercentage: Int
+          balance: Int`,
+        },
+      },
+    },
+  ],
 }
