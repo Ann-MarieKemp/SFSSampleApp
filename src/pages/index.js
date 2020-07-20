@@ -5,7 +5,6 @@ import styles from "./styles/index.modules.css"
 export default function Home() {
   const apiDebts = useAPI()
   const [total, setTotal] = useState(0)
-  const [clickedCount, setClickedCount] = useState(0)
   const [debts, setDebts] = useState(apiDebts)
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
   const [checkboxCount, setCheckboxCount] = useState(0)
@@ -32,36 +31,41 @@ export default function Home() {
   const clearCheckboxes = e => {
     if (e.target.checked === true) {
       setCheckboxCount(debts.length)
-      selectedCheckboxes.map(checkbox => {
-        return (checkbox.checked = true)
-      })
+      debts.map(debt => (debt.isChecked = true))
     } else {
       setCheckboxCount(0)
-      selectedCheckboxes.map(checkbox => {
-        return (checkbox.checked = false)
-      })
+      debts.map(debt => (debt.isChecked = false))
     }
   }
 
   const handleSelect = e => {
     const item = e.target
-    const isChecked = e.target.checked
+    debts.forEach((debt, idx) => {
+      if (String(idx) === e.target.name) {
+        debt.isChecked = e.target.checked
+      }
+    })
     if (selectedCheckboxes.indexOf(item) !== -1) {
       selectedCheckboxes.splice(selectedCheckboxes.indexOf(item), 1)
+      setCheckboxCount(checkboxCount - 1)
     } else {
       selectedCheckboxes.push(item)
+      setCheckboxCount(checkboxCount + 1)
     }
     setSelectedCheckboxes([...selectedCheckboxes])
-    console.log(selectedCheckboxes)
   }
 
   return (
     <div className="main-content-box">
-      <table>
+      <table id="table-format">
         <thead>
           <tr>
             <th>
-              <input type="checkbox" onClick={clearCheckboxes} />
+              <input
+                className="checkbox"
+                type="checkbox"
+                onClick={clearCheckboxes}
+              />
             </th>
             <th>Creditor</th>
             <th>First Name</th>
@@ -78,6 +82,7 @@ export default function Home() {
               creditorName,
               minPaymentPercentage,
               balance,
+              isChecked,
             } = debt
             return (
               <>
@@ -86,8 +91,9 @@ export default function Home() {
                     <input
                       className="checkbox"
                       type="checkbox"
-                      name={`checkbox-${idx}`}
-                      onClick={handleSelect}
+                      checked={isChecked}
+                      name={idx}
+                      onChange={handleSelect}
                     />
                   </td>
                   <td>{creditorName}</td>
@@ -111,7 +117,7 @@ export default function Home() {
       </div>
       <div className="count-box">
         <p>Total Row Count:{debts.length} </p>
-        <p>Check Row Count: {clickedCount}</p>
+        <p>Check Row Count: {checkboxCount}</p>
       </div>
     </div>
   )

@@ -20,6 +20,7 @@ const useAPI = () => {
     lastName: debt.lastName,
     minPaymentPercentage: debt.minPaymentPercentage,
     balance: debt.balance,
+    isChecked: false,
   }))
 }
 
