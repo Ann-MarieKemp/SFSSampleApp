@@ -9,15 +9,14 @@ export default function Home() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
   const [checkboxCount, setCheckboxCount] = useState(0)
 
-  //gets the total of all columns
-  const getTotal = () => {
-    return debts.reduce((acc, debt) => {
-      return acc + Number(debt.balance)
-    }, 0)
-  }
-
   //updates the total on state
   useEffect(() => {
+    //gets the total of all columns
+    const getTotal = () => {
+      return debts.reduce((acc, debt) => {
+        return acc + Number(debt.balance)
+      }, 0)
+    }
     let newTotal = getTotal()
     setTotal(newTotal)
   }, [total, debts])
