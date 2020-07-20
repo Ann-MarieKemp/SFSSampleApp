@@ -6,7 +6,7 @@ export default function Home() {
   const debts = useAPI()
   console.log(debts)
   return (
-    <>
+    <div className="main-content-box">
       <table>
         <thead>
           <tr>
@@ -54,6 +54,14 @@ export default function Home() {
         <button>Add Debt</button>
         <button>Remove Debt</button>
       </div>
-    </>
+      <div className="total-box">
+        <p id="total">Total</p>
+        <p>$</p>
+      </div>
+      <div className="count-box">
+        <p>Total Row Count: </p>
+        <p>Check Row Count: </p>
+      </div>
+    </div>
   )
 }
