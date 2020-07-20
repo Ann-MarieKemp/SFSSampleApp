@@ -7,6 +7,8 @@ export default function Home() {
   const [total, setTotal] = useState(0)
   const [clickedCount, setClickedCount] = useState(0)
   const [debts, setDebts] = useState(apiDebts)
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
+  const [checkboxCount, setCheckboxCount] = useState(0)
 
   const getTotal = () => {
     return debts.reduce((acc, debt) => {
@@ -27,9 +29,30 @@ export default function Home() {
     debts.pop()
     setDebts([...debts])
   }
+  const clearCheckboxes = e => {
+    if (e.target.checked === true) {
+      setCheckboxCount(debts.length)
+      selectedCheckboxes.map(checkbox => {
+        return (checkbox.checked = true)
+      })
+    } else {
+      setCheckboxCount(0)
+      selectedCheckboxes.map(checkbox => {
+        return (checkbox.checked = false)
+      })
+    }
+  }
 
-  const addClicked = e => {
-    setClickedCount(clickedCount + 1)
+  const handleSelect = e => {
+    const item = e.target
+    const isChecked = e.target.checked
+    if (selectedCheckboxes.indexOf(item) !== -1) {
+      selectedCheckboxes.splice(selectedCheckboxes.indexOf(item), 1)
+    } else {
+      selectedCheckboxes.push(item)
+    }
+    setSelectedCheckboxes([...selectedCheckboxes])
+    console.log(selectedCheckboxes)
   }
 
   return (
@@ -38,7 +61,7 @@ export default function Home() {
         <thead>
           <tr>
             <th>
-              <input type="checkbox" />
+              <input type="checkbox" onClick={clearCheckboxes} />
             </th>
             <th>Creditor</th>
             <th>First Name</th>
@@ -48,7 +71,7 @@ export default function Home() {
           </tr>
         </thead>
         <tbody>
-          {debts.map(debt => {
+          {debts.map((debt, idx) => {
             const {
               firstName,
               lastName,
@@ -63,7 +86,8 @@ export default function Home() {
                     <input
                       className="checkbox"
                       type="checkbox"
-                      onClick={addClicked}
+                      name={`checkbox-${idx}`}
+                      onClick={handleSelect}
                     />
                   </td>
                   <td>{creditorName}</td>
