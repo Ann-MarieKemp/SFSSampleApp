@@ -9,25 +9,31 @@ export default function Home() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
   const [checkboxCount, setCheckboxCount] = useState(0)
 
+  //gets the total of all columns
   const getTotal = () => {
     return debts.reduce((acc, debt) => {
       return acc + Number(debt.balance)
     }, 0)
   }
 
+  //updates the total on state
   useEffect(() => {
     let newTotal = getTotal()
     setTotal(newTotal)
   }, [total, debts])
 
+  //adds a row when add row button clicked
   const addRow = () => {
     setDebts([...debts, { balance: 0 }])
   }
 
+  //removes a row when remove row button clicked
   const removeRow = () => {
     debts.pop()
     setDebts([...debts])
   }
+
+  //selects or deselects all checkboxes when top checkbox clicked
   const clearCheckboxes = e => {
     if (e.target.checked === true) {
       setCheckboxCount(debts.length)
@@ -38,13 +44,16 @@ export default function Home() {
     }
   }
 
+  //updates individual checkbox when clicked and changes isChecked property on debt object
   const handleSelect = e => {
     const item = e.target
+    //loops through debts and updates isChecked if it mateches our event
     debts.forEach((debt, idx) => {
       if (String(idx) === e.target.name) {
         debt.isChecked = e.target.checked
       }
     })
+    //if this target is not already in our selectedCheckbox array it adds it, if it is it removes it
     if (selectedCheckboxes.indexOf(item) !== -1) {
       selectedCheckboxes.splice(selectedCheckboxes.indexOf(item), 1)
       setCheckboxCount(checkboxCount - 1)
