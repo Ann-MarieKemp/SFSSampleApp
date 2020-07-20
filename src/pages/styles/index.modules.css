@@ -48,4 +48,8 @@ p {
 }
 #total {
   margin-left: 20px;
+  font-weight: bold;
+}
+#totalValue{
+  font-weight: bold
 }

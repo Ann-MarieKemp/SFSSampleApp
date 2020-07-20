@@ -13,24 +13,23 @@ export default function Home() {
       return acc + Number(debt.balance)
     }, 0)
   }
+
   useEffect(() => {
     let newTotal = getTotal()
     setTotal(newTotal)
-  }, [total])
+  }, [total, debts])
 
   const addRow = () => {
-    setDebts([...debts, {}])
+    setDebts([...debts, { balance: 0 }])
   }
 
   const removeRow = () => {
     debts.pop()
-    setDebts(debts)
-    console.log(debts)
+    setDebts([...debts])
   }
 
   const addClicked = e => {
     setClickedCount(clickedCount + 1)
-    console.log("clicking stuff", e.target.checked)
   }
 
   return (
@@ -84,11 +83,11 @@ export default function Home() {
       </div>
       <div className="total-box">
         <p id="total">Total</p>
-        <p>${total}</p>
+        <p id="totalValue">${total}</p>
       </div>
       <div className="count-box">
-        <p>Total Row Count: </p>
-        <p>Check Row Count: </p>
+        <p>Total Row Count:{debts.length} </p>
+        <p>Check Row Count: {clickedCount}</p>
       </div>
     </div>
   )
