@@ -18,13 +18,10 @@ export default function Home() {
         return acc
       }
     }, 0)
-    console.log(debtTotal)
     setTotal(debtTotal)
   }
 
-  useEffect(() => {
-    console.log(total)
-  }, [total])
+  useEffect(() => {}, [total])
 
   //adds a row when add row button clicked
   const addRow = () => {
