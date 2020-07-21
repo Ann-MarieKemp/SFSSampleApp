@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"
-import useAPI from "./hooks/useAPI"
+import React, { useState, useEffect } from "react"
+import useAPI from "../hooks/useAPI"
 import styles from "./styles/index.modules.css"
 
 export default function Home() {
   const apiDebts = useAPI()
   const [total, setTotal] = useState(0)
-  const [debts, setDebts] = useState(apiDebts)
+  const [debts, setDebts] = useState([])
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
   const [checkboxCount, setCheckboxCount] = useState(0)
 
@@ -20,8 +20,9 @@ export default function Home() {
     }, 0)
     setTotal(debtTotal)
   }
-
-  useEffect(() => {}, [total])
+  useEffect(() => {
+    setDebts(apiDebts)
+  }, [])
 
   //adds a row when add row button clicked
   const addRow = () => {
@@ -41,12 +42,14 @@ export default function Home() {
       debts.map(debt => {
         debt.isChecked = true
         getTotal()
+        return e.target
       })
     } else {
       setCheckboxCount(0)
       debts.map(debt => {
         debt.isChecked = false
         getTotal()
+        return e.target
       })
     }
   }
@@ -102,7 +105,7 @@ export default function Home() {
               isChecked,
             } = debt
             return (
-              <>
+              <React.Fragment key={idx}>
                 <tr>
                   <td>
                     <input
@@ -119,7 +122,7 @@ export default function Home() {
                   <td>{minPaymentPercentage}</td>
                   <td>{balance}</td>
                 </tr>
-              </>
+              </React.Fragment>
             )
           })}
         </tbody>
