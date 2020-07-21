@@ -9,17 +9,22 @@ export default function Home() {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([])
   const [checkboxCount, setCheckboxCount] = useState(0)
 
-  //updates the total on state
+  const getTotal = () => {
+    //gets the total of all debts that are selected
+    let debtTotal = debts.reduce((acc, debt) => {
+      if (debt.isChecked) {
+        return acc + debt.balance
+      } else {
+        return acc
+      }
+    }, 0)
+    console.log(debtTotal)
+    setTotal(debtTotal)
+  }
+
   useEffect(() => {
-    //gets the total of all columns
-    const getTotal = () => {
-      return debts.reduce((acc, debt) => {
-        return acc + Number(debt.balance)
-      }, 0)
-    }
-    let newTotal = getTotal()
-    setTotal(newTotal)
-  }, [total, debts])
+    console.log(total)
+  }, [total])
 
   //adds a row when add row button clicked
   const addRow = () => {
@@ -36,10 +41,16 @@ export default function Home() {
   const clearCheckboxes = e => {
     if (e.target.checked === true) {
       setCheckboxCount(debts.length)
-      debts.map(debt => (debt.isChecked = true))
+      debts.map(debt => {
+        debt.isChecked = true
+        getTotal()
+      })
     } else {
       setCheckboxCount(0)
-      debts.map(debt => (debt.isChecked = false))
+      debts.map(debt => {
+        debt.isChecked = false
+        getTotal()
+      })
     }
   }
 
@@ -61,6 +72,7 @@ export default function Home() {
       setCheckboxCount(checkboxCount + 1)
     }
     setSelectedCheckboxes([...selectedCheckboxes])
+    getTotal()
   }
 
   return (
