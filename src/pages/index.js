@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import useAPI from "../hooks/useAPI"
-import styles from "./styles/index.modules.css"
+import styles from "../styles/index.modules.css"
 
 export default function Home() {
   const apiDebts = useAPI()
